@@ -100,10 +100,35 @@
                         pause();
                     });
             }
+			if (option.bindDirectionNav) {
+				!option.navigationLoop && option.start == 1 ? $(option.bindDirectionNav).find('.prev').addClass('disabled') : !option.navigationLoop && option.start == total ? $(option.bindDirectionNav).find('.next').addClass('disabled') : null;
+				$(option.bindDirectionNav).find('.prev').off('click').on('click', function(e) {
+					e.preventDefault();
+					if ($(this).hasClass('disabled')) {
+						return
+					};
+					if (option.play) {
+						pause();
+					};
+					animate('prev', effect);
+				})
+				$(option.bindDirectionNav).find('.next').off('click').on('click', function(e) {
+					e.preventDefault();
+					if ($(this).hasClass('disabled')) {
+						return
+					};
+					if (option.play) {
+						pause();
+					};
+					animate('next', effect);
+				})
 
+			}
             if (option.generateNextPrev) {
                 $('.' + option.container, elem).after('<a href="#" class="' + option.prev + '">Prev</a>');
                 $('.' + option.prev, elem).after('<a href="#" class="' + option.next + '">Next</a>');
+                !option.navigationLoop && option.start == 1 ? $('.' + option.prev, elem).addClass('disabled') : !option.navigationLoop && option.start == total ? $('.' + option.next, elem).addClass('disabled') : null;
+
             }
             $('.' + option.next, elem).on('tap click', function(e) {
                 e.preventDefault();
@@ -196,6 +221,9 @@
                             position = width * 2;
                             direction = -width * 2;
                             current = next;
+                            !option.navigationLoop ? option.bindDirectionNav ? (next == total - 1 ? $(option.bindDirectionNav).find('.next').addClass('disabled').siblings().removeClass('disabled') : $(option.bindDirectionNav).find('a').removeClass('disabled')) : (next == total - 1 ? $('.' + option.next, elem).addClass('disabled') : $('.' + option.next + ',.' + option.prev, elem).removeClass('disabled')) : null;
+
+                            !option.navigationLoop && option.bindDirectionNav ? (next == 0 ? $(option.bindDirectionNav).find('.prev').addClass('disabled').siblings().removeClass('disabled') : null) : null;
                             break;
                         case 'prev':
                             prev = current;
@@ -204,10 +232,11 @@
                             position = 0;
                             direction = 0;
                             current = next;
+                            !option.navigationLoop ? option.bindDirectionNav ? (next == 0 ? $(option.bindDirectionNav).find('.prev').addClass('disabled').siblings().removeClass('disabled') : $(option.bindDirectionNav).find('a').removeClass('disabled')) : (next == 0 ? $('.' + option.prev, elem).addClass('disabled') : $('.' + option.prev + ',.' + option.next, elem).removeClass('disabled')) : null;
                             break;
                         case 'pagination':
                             next = parseInt(clicked, 10);
-                            prev = $('.' + option.paginationClass + ' li a.cur', elem).attr('data-slide');
+                            option.paginationPosition == 'inner' ? prev = $('.' + option.paginationClass + ' li a.cur', elem).parent().index() : prev = $(elem).next().find('li a.cur').parent().index();
                             // prev = $('.' + option.paginationClass + ' li a.cur', elem).attr('href').replace('#', '');
                             if (next > prev) {
                                 position = width * 2;
@@ -263,7 +292,53 @@
                                     active = false;
                                 });
                         }
-                    } else {
+                    } 
+                    else if (effect == 'mix') {
+                        prev == 0 && next == total - 1 ? position = width * 2 : null;
+                        prev == total - 1 && next == 0 ? position = 0 : null;
+                        control.children(':eq(' + next + ')').css({
+                            left: position,
+                            display: 'block',
+                            opacity: 0
+                        });
+
+                        option.animationStart();
+                        var distance = next > prev ? 0 : '2000px';
+                        control.children(':eq(' + prev + ')').animate({
+                                left: distance,
+                                opacity: 0
+                            },
+                            /*  option.slideSpeed/2);
+                        control.animate({
+                            left: direction
+                        },*/
+                            option.slideSpeed / 2,
+                            function() {
+                                control.css({
+                                    left: -width
+                                });
+                                /*control.children(':eq(' + next + ')').css({
+                                left: width,
+                                zIndex: 5,
+                                opacity: 1
+                            });*/
+                                control.children(':eq(' + prev + ')').css({
+                                    left: width,
+                                    opacity: 0,
+                                    display: 'none',
+                                    zIndex: 0
+                                });
+
+                                control.children(':eq(' + next + ')').animate({
+                                    left: width,
+                                    zIndex: 5,
+                                    opacity: 1
+                                }, option.slideSpeed / 2);
+                                option.animationComplete(next + 1);
+                                active = false;
+                            });
+                    } 
+                    else {
                         control.children().eq(next).css({
                             left: position,
                             display: 'block'
@@ -334,7 +409,9 @@
         next: 'next',
         prev: 'prev',
         pagination: true,
-        generatePagination: true,
+        generatePagination: true,       
+        bindDirectionNav: false, //detect if there is an element to bind the direction
+        paginationPosition: 'inner',
         paginationClass: 'pageNav',
         fadeSpeed: 350,
         slideSpeed: 350,
@@ -348,6 +425,7 @@
         autoHeight: false,
         autoHeightSpeed: 350,
         bigTarget: false,
+        overflowToggle: false,
         animationStart: function() {},
         animationComplete: function() {}
     };
