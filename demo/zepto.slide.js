@@ -426,6 +426,7 @@
         autoHeightSpeed: 350,
         bigTarget: false,
         overflowToggle: false,
+        navigationLoop: true,
         animationStart: function() {},
         animationComplete: function() {}
     };
