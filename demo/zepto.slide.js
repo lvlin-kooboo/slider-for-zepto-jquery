@@ -125,13 +125,16 @@
 
 			}
             if (option.generateNextPrev) {
-                $('.' + option.container, elem).after('<a href="#" class="' + option.prev + '">Prev</a>');
-                $('.' + option.prev, elem).after('<a href="#" class="' + option.next + '">Next</a>');
+                $('.' + option.container, elem).after('<div class="pageNav"><a href="#" class="' + option.prev + '">Prev</a><a href="#" class="' + option.next + '">Next</a></div>');
+                // $('.' + option.prev, elem).after('<a href="#" class="' + option.next + '">Next</a>');
                 !option.navigationLoop && option.start == 1 ? $('.' + option.prev, elem).addClass('disabled') : !option.navigationLoop && option.start == total ? $('.' + option.next, elem).addClass('disabled') : null;
 
             }
             $('.' + option.next, elem).on('tap click', function(e) {
                 e.preventDefault();
+                    if ($(this).hasClass('disabled')) {
+                        return
+                    };
                 if (option.play) {
                     pause();
                 };
@@ -139,6 +142,9 @@
             });
             $('.' + option.prev, elem).on('tap click', function(e) {
                 e.preventDefault();
+                    if ($(this).hasClass('disabled')) {
+                        return
+                    };
                 if (option.play) {
                     pause();
                 };
@@ -254,11 +260,26 @@
                     if (effect === 'fade') {
                         option.animationStart();
                         if (option.crossfade) {
-                            control.children(':eq(' + next + ')', elem).css({
+                            // control.children(':eq(' + next + ')', elem).css({
+                            //     zIndex: 10
+                            // }).fadeIn(option.fadeSpeed,
+                            //     function() {
+                            //         control.children(':eq(' + prev + ')', elem).css({
+                            //             display: 'none',
+                            //             zIndex: 0
+                            //         });
+                            //         $(this).css({
+                            //             zIndex: 0
+                            //         });
+                            //         option.animationComplete(next + 1);
+                            //         active = false;
+                            //     });
+                            control.children().eq(next).css({
                                 zIndex: 10
-                            }).fadeIn(option.fadeSpeed,
+                            });
+                            control.children().eq(next).fadeIn(option.fadeSpeed,
                                 function() {
-                                    control.children(':eq(' + prev + ')', elem).css({
+                                    control.children().eq(prev).css({
                                         display: 'none',
                                         zIndex: 0
                                     });
@@ -296,7 +317,7 @@
                     else if (effect == 'mix') {
                         prev == 0 && next == total - 1 ? position = width * 2 : null;
                         prev == total - 1 && next == 0 ? position = 0 : null;
-                        control.children(':eq(' + next + ')').css({
+                        control.children().eq(next).css({
                             left: position,
                             display: 'block',
                             opacity: 0
@@ -304,7 +325,7 @@
 
                         option.animationStart();
                         var distance = next > prev ? 0 : '2000px';
-                        control.children(':eq(' + prev + ')').animate({
+                        control.children().eq(prev).animate({
                                 left: distance,
                                 opacity: 0
                             },
@@ -322,14 +343,14 @@
                                 zIndex: 5,
                                 opacity: 1
                             });*/
-                                control.children(':eq(' + prev + ')').css({
+                                control.children().eq(prev).css({
                                     left: width,
                                     opacity: 0,
                                     display: 'none',
                                     zIndex: 0
                                 });
 
-                                control.children(':eq(' + next + ')').animate({
+                                control.children().eq(next).animate({
                                     left: width,
                                     zIndex: 5,
                                     opacity: 1

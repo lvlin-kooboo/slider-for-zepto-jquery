@@ -16,7 +16,7 @@
 				/*overflow: hidden;*/
 				position: relative;
 				width: 672px;
-				height: 375px;
+				height: 232px;
 				margin: 0 auto;
 			}
 			.slides{
@@ -38,6 +38,27 @@
 				width: auto;
 				max-width: 100%;
 				margin: 0 auto;
+			}
+			.pageNav a{
+				z-index: 30;
+				position: absolute;
+				width: 45px;
+				height: 59px;
+				top: 50%;
+				margin-top: -30px;
+				text-indent: -9999px;
+				background: url(arrow.png) no-repeat;
+			}
+			.pageNav .prev{
+				left: 0;
+				background-position: 0 0;
+			}
+			.pageNav .next{
+				right: 0;
+				background-position: right 0;
+			}
+			.pageNav .disabled{
+				cursor: default;
 			}
 		</style>
 		<script src="jquery-1.9.0.min.js"></script>
