@@ -326,8 +326,7 @@
                         option.animationStart();
                         var distance = next > prev ? 0 : '2000px';
                         control.children().eq(prev).animate({
-                                left: distance,
-                                opacity: 0
+                                left: distance
                             },
                             /*  option.slideSpeed/2);
                         control.animate({
