@@ -235,8 +235,8 @@
                             prev = current;
                             next = current - 1;
                             next = next === -1 ? total - 1 : next;
-                            position = 0;
-                            direction = 0;
+                            position = -width *2;
+                            direction = width*2;
                             current = next;
                             !option.navigationLoop ? option.bindDirectionNav ? (next == 0 ? $(option.bindDirectionNav).find('.prev').addClass('disabled').siblings().removeClass('disabled') : $(option.bindDirectionNav).find('a').removeClass('disabled')) : (next == 0 ? $('.' + option.prev, elem).addClass('disabled') : $('.' + option.prev + ',.' + option.next, elem).removeClass('disabled')) : null;
                             break;
@@ -315,16 +315,17 @@
                         }
                     } 
                     else if (effect == 'mix') {
+                        console.log(current + '_' + next + '_' + prev)
                         prev == 0 && next == total - 1 ? position = width * 2 : null;
                         prev == total - 1 && next == 0 ? position = 0 : null;
+                        console.log(current + '_' + next + '_' + prev)
                         control.children().eq(next).css({
                             left: position,
-                            display: 'block',
-                            opacity: 0
+                            display: 'block'
                         });
 
                         option.animationStart();
-                        var distance = next > prev ? 0 : '2000px';
+                        var distance = next > prev ? 0 : width*2;
                         control.children().eq(prev).animate({
                                 left: distance
                             },
@@ -344,15 +345,15 @@
                             });*/
                                 control.children().eq(prev).css({
                                     left: width,
-                                    opacity: 0,
                                     display: 'none',
                                     zIndex: 0
+                                });
+                                control.children().eq(next).css({
                                 });
 
                                 control.children().eq(next).animate({
                                     left: width,
-                                    zIndex: 5,
-                                    opacity: 1
+                                    zIndex: 5
                                 }, option.slideSpeed / 2);
                                 option.animationComplete(next + 1);
                                 active = false;
