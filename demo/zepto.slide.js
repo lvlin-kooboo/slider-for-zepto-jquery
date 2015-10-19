@@ -235,8 +235,8 @@
                             prev = current;
                             next = current - 1;
                             next = next === -1 ? total - 1 : next;
-                            position = -width *2;
-                            direction = width*2;
+                            position = 0;
+                            direction = 0;
                             current = next;
                             !option.navigationLoop ? option.bindDirectionNav ? (next == 0 ? $(option.bindDirectionNav).find('.prev').addClass('disabled').siblings().removeClass('disabled') : $(option.bindDirectionNav).find('a').removeClass('disabled')) : (next == 0 ? $('.' + option.prev, elem).addClass('disabled') : $('.' + option.prev + ',.' + option.next, elem).removeClass('disabled')) : null;
                             break;
