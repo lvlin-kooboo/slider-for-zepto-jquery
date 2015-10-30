@@ -315,10 +315,8 @@
                         }
                     } 
                     else if (effect == 'mix') {
-                        console.log(current + '_' + next + '_' + prev)
                         prev == 0 && next == total - 1 ? position = width * 2 : null;
                         prev == total - 1 && next == 0 ? position = 0 : null;
-                        console.log(current + '_' + next + '_' + prev)
                         control.children().eq(next).css({
                             left: position,
                             display: 'block'
