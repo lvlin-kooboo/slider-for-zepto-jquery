@@ -1,0 +1,6 @@
+{
+  "name": "Slider-for-zepto-jquery",
+  "tagline": "the slider for zepto or jquery",
+  "body": "<ul>\r\n<li>slider for zepto/jquery 主要是为了解决移动端以及pc端开发时使用slider带来的依赖麻烦</li>\r\n<li>目前slider有三种切换效果分别为slide/fade/mix</li>\r\n<li>目前slider提供多种配置项（绑定导航navigation到指定元素、控制slider是否循环、控制导航navigation放置在slider内还是之外、是否生成导航navigation、是否生成页码）</li>\r\n</ul>\r\n<p><a href=\"http://lvlin-kooboo.github.io/slider-for-zepto-jquery/demo/index.html\">Demo for slider</a></p>",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
